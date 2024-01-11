@@ -26,7 +26,7 @@ namespace func_rocket
                new Rocket(new Vector(200, 500), Vector.Zero, -0.5 * Math.PI),
                new Vector(700, 500),
                //(size, v) => new Vector(0, -0.9), standardPhysics);
-               (size, v) => new Vector(0, gravityUp()), standardPhysics);
+               (size, v) => new Vector(0, gravityUp(size, v)), standardPhysics);
             //4 lvl
             yield return new Level("WhiteHole",
                new Rocket(new Vector(200, 500), Vector.Zero, -0.5 * Math.PI),
@@ -44,13 +44,16 @@ namespace func_rocket
                (size, v) => Vector.Zero, standardPhysics);
 
         }
-        private static float gravityUp()
+        private static double gravityUp(Size size, Vector v)
         {
-            float resultGravityUp = 300 / (600 + 300);
+            Console.WriteLine("===========");
+            Console.WriteLine(size);
+            Console.WriteLine(v);
+            
+            double resultGravityUp = 300.0 /(size.Height-v.Y +300.0 );
 
             return  resultGravityUp; 
 
-            //return new Vector(0, 300 / (spaceSize.Height += 300)); ;
         }
     }
 }
