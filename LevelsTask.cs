@@ -31,7 +31,7 @@ namespace func_rocket
             yield return new Level("WhiteHole",
                new Rocket(new Vector(200, 500), Vector.Zero, -0.5 * Math.PI),
                new Vector(600, 200),
-               (size, v) => Vector.Zero, standardPhysics);
+               (size, v) => new Vector( 0,gravityWhiteHole(size, v)), standardPhysics);
             //5 lvl
             yield return new Level("BlackHole",
                new Rocket(new Vector(200, 500), Vector.Zero, -0.5 * Math.PI),
@@ -46,14 +46,13 @@ namespace func_rocket
         }
         private static double gravityUp(Size size, Vector v)
         {
-            Console.WriteLine("===========");
-            Console.WriteLine(size);
-            Console.WriteLine(v);
-            
-            double resultGravityUp = 300.0 /(size.Height-v.Y +300.0 );
-
-            return  resultGravityUp; 
-
+            double resultGravityUp = 300.0 / (size.Height - v.Y + 300.0);
+            return  resultGravityUp;
+        }
+        private static double gravityWhiteHole(Size size, Vector v)
+        {
+            double resultGraviryWhiteHoleHeigth = 0;
+            return resultGraviryWhiteHoleHeigth;
         }
     }
 }
