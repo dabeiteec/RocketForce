@@ -31,8 +31,6 @@ namespace func_rocket
 		}
 		
 
-		//public GameForm(IEnumerable<Level> levels , Size spaceSize)
-
         public GameForm(IEnumerable<Level> levels)
 
         {
@@ -109,36 +107,36 @@ namespace func_rocket
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			e.Graphics.FillRectangle(Brushes.Bisque, ClientRectangle);
-			var g = Graphics.FromImage(image);
-			DrawTo(g);
-			e.Graphics.DrawImage(image, (ClientRectangle.Width - image.Width)/2, (ClientRectangle.Height - image.Height) / 2);
+			var graphics = Graphics.FromImage(image);
+			DrawTo(graphics);
+			e.Graphics.DrawImage(image, (ClientRectangle.Width - image.Width) / 2, (ClientRectangle.Height - image.Height) / 2);
 		}
 
-		private void DrawTo(Graphics g)
+		private void DrawTo(Graphics graphics)
 		{
-			g.SmoothingMode = SmoothingMode.AntiAlias;
-			g.FillRectangle(Brushes.Beige, ClientRectangle);
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            graphics.FillRectangle(Brushes.Beige, ClientRectangle);
 
 			if (currentLevel == null) return;
+			 
+			DrawGravity(graphics);
+			var matrix = graphics.Transform;
 
-			DrawGravity(g);
-			var matrix = g.Transform;
-
-			g.TranslateTransform((float) currentLevel.Target.X, (float) currentLevel.Target.Y);
-			g.DrawImage(target, new Point(-target.Width/2, -target.Height/2));
-
-			if (timer.Enabled)
+            graphics.TranslateTransform((float) currentLevel.Target.X, (float) currentLevel.Target.Y);
+            //Graphics levelTarget =graphics.DrawImage(target, new Point(-target.Width/2, -target.Height/2));
+            graphics.DrawImage(target, new Point(-target.Width / 2, -target.Height / 2));
+            if (timer.Enabled)
 			{
-				g.Transform = matrix;
-				g.TranslateTransform((float) currentLevel.Rocket.Location.X, (float) currentLevel.Rocket.Location.Y);
-				g.RotateTransform(90 + (float) (currentLevel.Rocket.Direction*180/Math.PI));
-				g.DrawImage(rocket, new Point(-rocket.Width/2, -rocket.Height/2));
+                graphics.Transform = matrix;
+                graphics.TranslateTransform((float) currentLevel.Rocket.Location.X, (float) currentLevel.Rocket.Location.Y);
+                graphics.RotateTransform(90 + (float) (currentLevel.Rocket.Direction*180/Math.PI));
+                graphics.DrawImage(rocket, new Point(-rocket.Width/2, -rocket.Height/2));
 			}
 		}
 
-		private void DrawGravity(Graphics g)
+		private void DrawGravity(Graphics graphicsDraw)
 		{
-			Action<Vector, Vector> draw = (a,b) => g.DrawLine(Pens.DeepSkyBlue, (int)a.X, (int)a.Y, (int)b.X, (int)b.Y);
+			Action<Vector, Vector> draw = (a,b) => graphicsDraw.DrawLine(Pens.DeepSkyBlue, (int)a.X, (int)a.Y, (int)b.X, (int)b.Y);
 			for (int x = 0; x < spaceSize.Width; x += 50)
 				for (int y = 0; y < spaceSize.Height; y += 50)
 				{
