@@ -42,7 +42,7 @@ namespace func_rocket
             yield return new Level("BlackAndWhite",
                new Rocket(new Vector(200, 500), Vector.Zero, -0.5 * Math.PI),
                new Vector(600, 200),
-               (size, v) => gravityBlackAndWhite(size, v, new Vector(600, 200), new Vector(600, 200)), standardPhysics);
+               (size, v) => gravityBlackAndWhite(size, v, new Vector(600, 200), new Vector(400, 350)), standardPhysics);
 
         }
         private static Vector gravityUp(Size size, Vector v)
@@ -83,7 +83,8 @@ namespace func_rocket
             Vector gravityBlack = new Vector((anomale.X - v.X), (anomale.Y - v.Y));
             gravityBlack = gravityBlack.Normalize();
             Vector resultBlack = gravityBlack * gravityForceBlack;
-            Vector allResult = resultWhite + resultBlack;
+
+            Vector allResult = resultWhite + resultBlack/2;
             return allResult;
         }
     }
